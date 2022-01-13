@@ -1,0 +1,17 @@
+name: print-ns-policy
+description: DESCRIPTION OF YOUR POLICY
+homepage: POLICY HOMEPAGE URL
+author:
+  name: Víctor Cuadrado Juan <me@viccuad.me>
+  homepage: https://author1.website
+download:
+  # Important: leave the __TAG__ around: this is automatically replaced with the value of the git tag
+  registry: ghcr.io/viccuad/policies/print-ns-policy:__TAG__
+  # url is optional
+  url: https://github.com/yourorg/print-ns-policy/releases/download/__TAG__/policy.wasm
+keywords:
+  - this is freeform
+resources:
+  - Pod
+mutation: false
+contextAware: false
