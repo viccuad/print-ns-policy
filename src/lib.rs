@@ -6,7 +6,10 @@ use guest::prelude::*;
 use k8s_openapi::api::core::v1 as apicore;
 
 extern crate kubewarden_policy_sdk as kubewarden;
-use kubewarden::{logging, protocol_version_guest, request::ValidationRequest, validate_settings};
+use kubewarden::{
+    cluster_context::ClusterContext, logging, protocol_version_guest, request::ValidationRequest,
+    validate_settings,
+};
 
 mod settings;
 use settings::Settings;
@@ -29,6 +32,12 @@ pub extern "C" fn wapc_init() {
 
 fn validate(payload: &[u8]) -> CallResult {
     let validation_request: ValidationRequest<Settings> = ValidationRequest::new(payload)?;
+    let cluster_cts = ClusterContext::default();
+    let namespaces: Vec<apicore::Namespace> = cluster_cts.namespaces()?;
+
+    for ns in namespaces.iter() {
+        info!(LOG_DRAIN, "NAMESPACE: {:?}", ns.metadata.name);
+    }
 
     info!(LOG_DRAIN, "starting validation");
 
